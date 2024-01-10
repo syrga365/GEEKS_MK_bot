@@ -1,0 +1,5 @@
+.idea
+/.pycache/
+.env
+geeks.db.sqlite3
+venv

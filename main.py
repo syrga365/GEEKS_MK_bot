@@ -11,8 +11,8 @@ from handlers import (
 from database import sql_commands
 
 start.register_start_handlers(dp=dp)
-# registration.registration_handlers(dp=dp)
-# questionnaire.register_questionnaire_handlers(dp=dp)
+registration.registration_handlers(dp=dp)
+questionnaire.register_questionnaire_handlers(dp=dp)
 review.review_handlers(dp=dp)
 
 

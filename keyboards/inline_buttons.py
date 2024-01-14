@@ -32,11 +32,11 @@ async def direction_keyboard():
         callback_data="direction_frontend"
     )
     ios_button = InlineKeyboardButton(
-        "IOS",
+        "IOS разработка",
         callback_data="direction_ios"
     )
     android_button = InlineKeyboardButton(
-        "Android",
+        "Android разработка",
         callback_data="direction_android"
     )
     designer_button = InlineKeyboardButton(

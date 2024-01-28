@@ -19,7 +19,7 @@ async def review_from_users(call: types.CallbackQuery):
 
 
 async def load_review(message: types.Message,
-                           state: FSMContext):
+                       state: FSMContext):
     db = Database()
     async with state.proxy() as data:
         data['review'] = message.text

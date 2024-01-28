@@ -4,7 +4,7 @@ from const import REGISTRATION_TEXT
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher import FSMContext
 from database.sql_commands import Database
-from keyboards.inline_buttons import direction_keyboard
+from keyboards.inline_buttons import direction_mk_keyboard
 
 
 class RegistrationStates(StatesGroup):
@@ -26,11 +26,10 @@ async def load_first_name(message: types.Message,
                           state: FSMContext):
     async with state.proxy() as data:
         data['first_name'] = message.text
-        print(data)
 
     await bot.send_message(
         chat_id=message.from_user.id,
-        text="Сколько вам лет?(Напишите в виде чисел😎)"
+        text="Сколько вам лет?(Напишите в виде чисель)"
     )
     await RegistrationStates.next()
 
@@ -39,29 +38,30 @@ async def load_age(message: types.Message,
                    state: FSMContext):
     async with state.proxy() as data:
         data['age'] = message.text
-        print(data)
-
+    print("Button")
     await bot.send_message(
         chat_id=message.from_user.id,
         text="Какое направление вас интересует?🤩",
-        reply_markup=await direction_keyboard()
+        reply_markup=await direction_mk_keyboard()
 
     )
     await RegistrationStates.next()
 
 
-async def load_direction(call: types.CallbackQuery,
+async def load_direction(message: types.Message,
                          state: FSMContext):
-    async with state.proxy() as data:
-        call.data.replace("direction_", "")
-        print(data)
+    if message.text not in ["Тестирование ПО "]:
+        await message.answer("wrong ")
+    else:
+        async with state.proxy() as data:
+            data['direction'] = message.text
 
-    await bot.send_message(
-        chat_id=call.from_user.id,
-        text="Оставьте свой номер чтобы мы с вами связались😇",
-
-    )
-    await RegistrationStates.next()
+        await bot.send_message(
+            chat_id=message.from_user.id,
+            text="Оставьте свой номер чтобы мы с вами связались😇",
+            reply_markup=None
+        )
+        await RegistrationStates.next()
 
 
 async def load_call_number(message: types.Message,
@@ -105,7 +105,8 @@ def registration_handlers(dp: Dispatcher):
     )
     dp.register_message_handler(
         load_direction,
-        state=RegistrationStates.direction,
+        content_types=['text'],
+        state=RegistrationStates.direction
     )
     dp.register_message_handler(
         load_call_number,

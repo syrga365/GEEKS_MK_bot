@@ -13,6 +13,7 @@ class Database:
         self.connection.execute(sql_queries.CREATE_USER_TABLE_QUERY)
         self.connection.execute(sql_queries.CREATE_REGISTRATION_TABLE_QUERY)
         self.connection.execute(sql_queries.CREATE_REVIEW_TABLE_QUERY)
+        self.connection.execute(sql_queries.CREATE_SIGN_UP_TO_COURSE_TABLE_QUERY)
         self.connection.commit()
 
     def sql_insert_users(self, tg_id, username, first_name, last_name):
@@ -33,5 +34,12 @@ class Database:
         self.cursor.execute(
             sql_queries.INSERT_REVIEW_QUERY,
             (None, tg_id, review)
+        )
+        self.connection.commit()
+
+    def sql_insert_signup_to_course(self, tg_id, last_name, first_name, age, direction, call_number):
+        self.cursor.execute(
+            sql_queries.INSERT_SIGN_UP_TO_COURSE_QUERY,
+            (None, tg_id,  last_name, first_name, age, direction, call_number)
         )
         self.connection.commit()
